@@ -6,6 +6,10 @@ Give the people what they want... PIZZA, no not the delicious, mouth-watering, w
 ## Built With
 * HTML
 * CSS
+* JavaScript
+* MongoDB ODM
+* Mongoose library
+* Node.js
 
 ## Website
 https://pizza-hunt.herokuapp.com

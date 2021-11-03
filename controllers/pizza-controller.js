@@ -2,7 +2,6 @@ const { Pizza } = require('../models');
 
 const pizzaController = {
     // get all pizzas
-    // Mongoose select option tells the ODM that we do not desire the property field in the response data
     getAllPizza(req, res) {
         Pizza.find({})
             .populate({
@@ -26,24 +25,17 @@ const pizzaController = {
                 select: '-__v'
             })
             .select('-__v')
-            .then(dbPizzaData => {
-                // If no pizza is found, send 404
-                if (!dbPizzaData) {
-                    res.status(404).json({ message: 'No pizza found with this id!' });
-                    return;
-                }
-                res.json(dbPizzaData);
-            })
+            .then(dbPizzaData => res.json(dbPizzaData))
             .catch(err => {
                 console.log(err);
-                res.status(400).json(err);
+                res.sendStatus(400);
             });
     },
     // createPizza
     createPizza({ body }, res) {
         Pizza.create(body)
             .then(dbPizzaData => res.json(dbPizzaData))
-            .catch(err => res.status(400).json(err));
+            .catch(err => res.json(err));
     },
     // update pizza by id
     updatePizza({ params, body }, res) {
@@ -55,7 +47,7 @@ const pizzaController = {
                 }
                 res.json(dbPizzaData);
             })
-            .catch(err => res.status(400).json(err));
+            .catch(err => res.json(err));
     },
     // delete pizza by id
     deletePizza({ params }, res) {

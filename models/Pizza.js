@@ -12,7 +12,7 @@ const PizzaSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: (createdAtVal) => dateFormat(createdAtVal)
+            get: createdAtVal => dateFormat(createdAtVal)
         },
         size: {
             type: String,
@@ -31,12 +31,13 @@ const PizzaSchema = new Schema(
             virtuals: true,
             getters: true
         },
+        // prevent virtuals from creating duplicate of _id as `id`
         id: false
     }
 );
 
 // get the total count of comments and replies on retrieval
-PizzaSchema.virtual('CommentCount').get(function() {
+PizzaSchema.virtual('commentCount').get(function() {
     return this.comments.length;
 });
 

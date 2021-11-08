@@ -1,18 +1,64 @@
-const { Schema, model} = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
+const dateFormat = require('../utils/dateFormat');
 
-const CommentSchema = new Schema ({
-    writtenBy: {
-        type: String
+const ReplySchema = new Schema(
+    {
+        // set custom id to avoid confusion with parent comment _id
+        replyId: {
+            type: Schema.Types.ObjectId,
+            default: () => new Types.ObjectId()
+        },
+        replyBody: {
+            type: String
+        },
+        writtenBy: {
+            type: String
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            get: createdAtVal => dateFormat(createdAtVal)
+        }
     },
-    commentBody: {
-        type: String
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    {
+        toJSON: {
+            getters: true
+        }
     }
-});
+);
+
+const CommentSchema = new Schema (
+    {
+        writtenBy: {
+            type: String
+        },
+        commentBody: {
+            type: String
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            get: createdAtVal => dateFormat(createdAtVal)
+        },
+        // use ReplySchema to validate data for a reply
+        replies: [ReplySchema]
+    },
+    {
+        toJSON: {
+            // virtuals set to true so that the CommentSchema definition functions
+            virtuals: true,
+            getters: true
+        },
+        // prevent virtuals from creating duplicate of _id as `id`
+        id: false
+    }
+);
 
 const Comment = model('Comment', CommentSchema);
+
+// virtuals are by convention added below the Schema definition
+CommentSchema.virtual('replyCount').get(function() {
+    return this.replies.length;
+});
 
 module.exports = Comment;

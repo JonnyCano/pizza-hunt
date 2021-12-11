@@ -25,17 +25,23 @@ const pizzaController = {
                 select: '-__v'
             })
             .select('-__v')
-            .then(dbPizzaData => res.json(dbPizzaData))
+            .then(dbPizzaData => {
+                if (!dbPizzaData) {
+                    res.status(404).json({ message: 'No pizza found with this id!' });
+                    return;
+                }
+                res.json(dbPizzaData);
+            })
             .catch(err => {
                 console.log(err);
-                res.sendStatus(400);
+                res.status(400).json(err);
             });
     },
     // createPizza
     createPizza({ body }, res) {
         Pizza.create(body)
             .then(dbPizzaData => res.json(dbPizzaData))
-            .catch(err => res.json(err));
+            .catch(err => res.status(400).json(err));
     },
     // update pizza by id
     updatePizza({ params, body }, res) {
@@ -47,7 +53,7 @@ const pizzaController = {
                 }
                 res.json(dbPizzaData);
             })
-            .catch(err => res.json(err));
+            .catch(err => res.status(400).json(err));
     },
     // delete pizza by id
     deletePizza({ params }, res) {

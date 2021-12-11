@@ -27,8 +27,7 @@ const ReplySchema = new Schema(
     }
 );
 
-const CommentSchema = new Schema (
-    {
+const CommentSchema = new Schema ({
         writtenBy: {
             type: String
         },
@@ -51,8 +50,7 @@ const CommentSchema = new Schema (
         },
         // prevent virtuals from creating duplicate of _id as `id`
         id: false
-    }
-);
+    });
 
 const Comment = model('Comment', CommentSchema);
 

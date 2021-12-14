@@ -111,7 +111,7 @@ function handleNewCommentSubmit(event) {
   const formData = { commentBody, writtenBy };
 
   // fetch the POST data to the post comment route
-  fetch(`/api/comments/${pizzaId}/${commentId}`, {
+  fetch(`/api/comments/${pizzaId}`, {
     method: 'POST', 
     headers: {
       Accept: 'application/json',

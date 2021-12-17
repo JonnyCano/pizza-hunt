@@ -7,12 +7,15 @@ Give the people what they want... PIZZA, no not the delicious, mouth-watering, w
 * HTML
 * CSS
 * JavaScript
-* MongoDB ODM
 * Mongoose library
 * Node.js
+* Heroku
+* MongoDB Atlas
 
 ## Website
-https://pizza-hunt.herokuapp.com
+https://canocan-pizza-hunt.herokuapp.com/
+
+<img width="960" alt="CanocanPizza Hunt Snapshot" src="./public/assets/images/homepage-screen.PNG">
 
 ## Contribution
 Made with ❤️ by Jonathan
